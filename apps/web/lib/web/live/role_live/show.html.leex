@@ -1,0 +1,26 @@
+<h1>Show Role</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.role_show_path(@socket, :show, @role)}>
+    <.live_component
+      module={Web.RoleLive.FormComponent}
+      id={@role.id}
+      title={@page_title}
+      action={@live_action}
+      post={@role}
+      return_to={Routes.role_show_path(@socket, :show, @role)}
+    />
+  </.modal>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @role.title %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.role_show_path(@socket, :edit, @role), class: "button" %></span>
+<span><%= live_redirect "Back", to: Routes.role_index_path(@socket, :index) %></span>

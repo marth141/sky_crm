@@ -1,0 +1,52 @@
+# File docker_phx/docker-compose.yml
+version: "3.5"
+
+volumes:
+  pgdata:
+
+networks:
+  webnet:
+    driver: overlay
+    attachable: true # Needed in order to run custom commands in the container
+
+services:
+  app:
+    image: sky_crm:0.1.0
+    ports:
+      - target: 4001
+        published: 443
+        protocol: tcp
+        mode: host
+    env_file:
+      - config/docker.env
+    depends_on:
+      - db
+    restart: always
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    networks:
+      - webnet
+
+  db:
+    image: postgres:latest
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $DB_USER"]
+      interval: 3s
+      timeout: 5s
+      retries: 5
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role == manager]
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "5432:5432"
+    env_file:
+      - config/docker.env
+    networks:
+      - webnet

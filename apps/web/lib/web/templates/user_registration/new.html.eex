@@ -1,0 +1,57 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-200 py-12 px-4 sm:px-6 lg:px-8">
+
+  <div class="max-w-md w-full">
+
+    <div class="flex justify-center items-center">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+            class="w-20 h-20 fill-current text-rose-800">
+        <path d="M7 14.001H9V16.000999999999998H7z"/>
+        <path d="M19,2h-8C9.896,2,9,2.896,9,4v6H5c-1.103,0-2,0.897-2,2v9c0,0.552,0.447,1,1,
+        1h5h3h1h4h3c0.553,0,1-0.448,1-1V4 C21,2.896,20.104,2,19,2z M5,20v-8h6v8H5z M14,8h-2V6h2V8z
+        M18,16h-2v-2h2V16z M18,12h-2v-2h2V12z M18,8h-2V6h2V8z"/>
+      </svg>
+    </div>
+
+    <h2 class="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
+      Register
+    </h2>
+
+    <p class="mt-2 text-center text-sm leading-5 text-gray-600">
+      Or <%= link("Login", to: Routes.user_session_path(@conn, :new), class: "font-medium text-rose-600 hover:text-rose-500 focus:outline-none focus:underline transition ease-in-out duration-150" )%>
+    </p>
+
+    <div class="mt-4 p-3">
+      <%= form_for @changeset, Routes.user_registration_path(@conn, :create), fn f -> %>
+
+
+        <div>
+          <%= label f, :email, class: "block text-sm font-medium leading-5 text-gray-700" %>
+          <div class="mt-2 rounded-md shadow-sm">
+            <%= text_input(f, :email, required: true, class: "appearance-none block w-full px-3 py-2 border border-transparent rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-rose focus:border-rose-400 transition duration-150 ease-in-out sm:text-sm sm:leading-5 shadow hover:shadow-lg") %>
+          </div>
+        </div>
+
+        <div class="mt-6">
+          <%= label f, :password, class: "block text-sm font-medium leading-5 text-gray-700" %>
+          <div class="mt-2 rounded-md shadow-sm">
+          <%= password_input(f, :password, required: true, class: "appearance-none block w-full px-3 py-2 border border-transparent rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-rose focus:border-rose-400 transition duration-150 ease-in-out sm:text-sm sm:leading-5 shadow hover:shadow-lg") %>
+          </div>
+        </div>
+
+        <div class="mt-6 flex items-center justify-between">
+          <div class="text-sm leading-5">
+            <%= link("Forgot your password?", to: Routes.user_reset_password_path(@conn, :new),
+                class: "font-medium text-rose-600 hover:text-rose-500 focus:outline-none focus:underline transition ease-in-out duration-150"
+            )%>
+          </div>
+        </div>
+
+        <div class="mt-6 flex items-center justify-between">
+          <%= submit "Register", class: "w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-rose-600 hover:bg-rose-500 focus:outline-none focus:border-rose-700 focus:shadow-outline-rose active:bg-rose-700 transition duration-150 ease-in-out" %>
+        </div>
+
+      <% end %>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,136 @@
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.user_show_path(@socket, :show, @user)}>
+    <.live_component
+      module={Web.UserLive.FormComponent}
+      id={@user.id}
+      title={@page_title}
+      action={@live_action}
+      user={@user}
+      return_to={Routes.user_show_path(@socket, :show, @user)}
+    />
+  </.modal>
+<% end %>
+<div class="md:flex md:items-center md:justify-between">
+  <div class="flex-1 min-w-0">
+    <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:leading-9 sm:truncate">
+      <%= @user.email %>
+    </h2>
+  </div>
+  <div class="mt-4 flex md:mt-0 md:ml-4 space-x-2">
+    <span class="shadow-sm rounded-md">
+      <%= live_patch "Edit", to: Routes.user_show_path(@socket, :edit, @user),
+            class: "inline-flex items-center px-4 py-2 border border-transparent text-sm
+                    leading-5 font-medium rounded-md text-white bg-rose-600 hover:bg-rose-500
+                    focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700
+                    active:bg-indigo-700 transition duration-150 ease-in-out" %>
+    </span>
+    <%= if @user.is_active do %>
+      <span class="shadow-sm rounded-md">
+        <button phx-click="deactivate" class="inline-flex items-center px-4 py-2 border border-transparent text-sm
+                      leading-5 font-medium rounded-md text-white bg-rose-600 hover:bg-rose-500
+                      focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700
+                      active:bg-indigo-700 transition duration-150 ease-in-out">
+          Deactivate
+        </button>
+      </span>
+    <% else %>
+      <span class="shadow-sm rounded-md">
+        <button phx-click="activate" class="inline-flex items-center px-4 py-2 border border-transparent text-sm
+                      leading-5 font-medium rounded-md text-white bg-rose-600 hover:bg-rose-500
+                      focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700
+                      active:bg-indigo-700 transition duration-150 ease-in-out">
+          Reactivate
+        </button>
+      </span>
+    <% end %>
+    <span class="shadow-sm rounded-md">
+      <button phx-click="reset-password" class="inline-flex items-center px-4 py-2 border border-transparent text-sm
+                    leading-5 font-medium rounded-md text-white bg-rose-600 hover:bg-rose-500
+                    focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700
+                    active:bg-indigo-700 transition duration-150 ease-in-out">
+        Reset Password
+      </button>
+    </span>
+    <span class="shadow-sm rounded-md">
+      <button phx-click="make-admin" class="inline-flex items-center px-4 py-2 border border-transparent text-sm
+                    leading-5 font-medium rounded-md text-white bg-rose-600 hover:bg-rose-500
+                    focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700
+                    active:bg-indigo-700 transition duration-150 ease-in-out">
+        Make Admin
+      </button>
+    </span>
+  </div>
+</div>
+<div class="my-6 bg-white shadow overflow-hidden sm:rounded-lg">
+  <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">
+      User Details
+    </h3>
+  </div>
+  <div class="px-4 py-5 sm:p-0">
+    <dl>
+      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 sm:py-5">
+        <dt class="text-sm leading-5 font-medium text-gray-500">
+          Email
+        </dt>
+        <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+          <%= @user.email %>
+        </dd>
+      </div>
+      <div class="mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5">
+        <dt class="text-sm leading-5 font-medium text-gray-500">
+          Created At
+        </dt>
+        <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+          <%= @user.inserted_at %>
+        </dd>
+      </div>
+      <div class="mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5">
+        <dt class="text-sm leading-5 font-medium text-gray-500">
+          Admin?
+        </dt>
+        <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+          <%= if @user.is_admin do %>
+            <svg fill="currentColor" viewBox="0 0 20 20" class="text-rose-600 h-6 w-6">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+          <% else %>
+            <svg fill="currentColor" viewBox="0 0 20 20" class="text-rose-600 h-6 w-6">>
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd">
+              </path></svg>
+          <% end %>
+        </dd>
+      </div>
+      <div class="mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5">
+        <dt class="text-sm leading-5 font-medium text-gray-500">
+          Active User?
+        </dt>
+        <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+          <%= if @user.is_active do %>
+            <svg fill="currentColor" viewBox="0 0 20 20" class="text-rose-600 h-6 w-6">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+          <% else %>
+            <svg fill="currentColor" viewBox="0 0 20 20" class="text-rose-600 h-6 w-6">>
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd">
+              </path></svg>
+          <% end %>
+        </dd>
+      </div>
+      <div class="mt-8 sm:mt-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-t sm:border-gray-200 sm:px-6 sm:py-5">
+        <dt class="text-sm leading-5 font-medium text-gray-500">
+          About
+        </dt>
+        <dd class="mt-1 text-sm leading-5 text-gray-900 sm:mt-0 sm:col-span-2">
+          Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud pariatur mollit ad adipisicing reprehenderit deserunt qui eu.
+        </dd>
+      </div>
+    </dl>
+  </div>
+</div>
+<div class="mt-4 flex md:mt-0">
+  <span class="shadow-sm rounded-md">
+    <span><%= live_patch "Back", to: Routes.user_index_path(@socket, :index),
+                  class: "relative inline-flex items-center px-4 py-2 border border-transparent text-sm
+                    leading-5 font-medium rounded-md text-white bg-gray-500 hover:bg-gray-400
+                    focus:outline-none focus:shadow-outline-gray focus:border-gray-700 active:bg-gray-700" %></span>
+  </span>
+</div>

@@ -1,0 +1,53 @@
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div>
+  <%= @time %>
+</div>
+<div>
+  <h3 class="text-lg leading-6 font-medium text-gray-900">
+    Completed <a href="https://github.com/sorentwo/oban#readme" class="underline">Oban</a> Jobs
+  </h3>
+  <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
+    <%= for {title, count, most_recent} <- @oban_completed_job_counts do %>
+      <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
+        <dt class="text-sm font-medium text-gray-500">
+          <%= title |> String.split(~r/.Jobs.+/) %>
+          <br/>
+          <%= title |> String.split(~r/.+Jobs./) %>
+        </dt>
+        <dd class="mt-1 text-3xl font-semibold text-gray-900">
+          <%= count %>
+        </dd>
+        <dt class="text-sm font-medium text-gray-500">
+          Most Recent:
+          <br/>
+          <%= most_recent |> TimeApi.to_mst() |> DateTime.truncate(:second) %>
+        </dt>
+      </div>
+    <% end %>
+  </dl>
+</div>
+<br/>
+<div>
+  <h3 class="text-lg leading-6 font-medium text-gray-900">
+    Retryable <a href="https://github.com/sorentwo/oban#readme" class="underline">Oban</a> Jobs
+  </h3>
+  <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
+    <%= for {title, count, most_recent} <- @oban_retryable_job_counts do %>
+      <div class="px-4 py-5 bg-white shadow rounded-lg overflow-hidden sm:p-6">
+        <dt class="text-sm font-medium text-gray-500">
+          <%= title |> String.split(~r/.Jobs.+/) %>
+          <br/>
+          <%= title |> String.split(~r/.+Jobs./) %>
+        </dt>
+        <dd class="mt-1 text-3xl font-semibold text-gray-900">
+          <%= count %>
+        </dd>
+        <dt class="text-sm font-medium text-gray-500">
+          Most Recent:
+          <br/>
+          <%= most_recent |> TimeApi.to_mst() |> DateTime.truncate(:second) %>
+        </dt>
+      </div>
+    <% end %>
+  </dl>
+</div>

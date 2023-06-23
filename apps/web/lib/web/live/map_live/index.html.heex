@@ -1,0 +1,42 @@
+<style type="text/css">
+  /* Set the size of the div element that contains the map */
+  #map {
+    height: 800px;
+    /* The height is 400 pixels */
+    width: 100%;
+    /* The width is the width of the web page */
+  }
+</style>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=#{Application.get_env(:geocoder, :worker)[:key]}&callback=initMap&v=weekly"
+    defer
+></script>
+<form phx-submit="search-address">
+  <input name="address" placeholder="Enter Address Here">
+</form>
+<br/>
+<div id="map-container">
+  <div id="map" phx-update="ignore" phx-hook="Map" data-addresses={@addresses} data-search_address_lat_lng={@search_address_lat_lng}></div>
+</div>
+<br/>
+<div class="flex justify-center">
+Map Legend
+</div>
+<br/>
+<div class="flex justify-center">
+<div class="grid grid-cols-3 gap-4">
+<div>
+<img src="assets/images/skyline_map_pin_red.png"/>
+<span>System On</span>
+</div>
+<div>
+<img src="assets/images/skyline_map_pin_white.png"/>
+<span>In Development</span>
+</div>
+<div>
+<img src="assets/images/skyline_map_pin_green.png"/>
+<span>Searched Address</span>
+</div>
+</div>
+</div>

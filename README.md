@@ -2,27 +2,17 @@
 
 ## Description
 
-This application is largely to be able to provide a backend for Skyline Solar.
+This is the SkyCRM project which I had worked on between 2020 and 2023. To date, it's still handling EverBright webhook matters, but much of it has had pieces of it replaced.
 
-This application aims to wrap business contexts such as Sales, Proposals, or Operations and their dependencies on other applications such as Hubspot, Netsuite, and Sighten together under one application.
+When this application was most active, it would handle passing information between Copper, Hubspot, Netsuite, OneDrive/SharePoint, PandaDocs, EverBright (Formerly Sighten), Google, Slack, and Zenefits.
 
-In doing this, we capture the data transfer between systems at specific points of the solar process. For example, we might have a message workflow that looks like,
+In general, it would receive HTTP messages such as POST messages. These messages would be stored in Postgres using Oban. Oban would then at some point quickly after perform the message processing instructions defined in the Oban.Worker modules.
 
-"Hubspot sent a deal from one of its workflows to SkyCRM's endpoint where the records received by SkyCRM at this endpoint will create a Sighten site."
+Phoenix and LiveView were used to provide a dashboard for reporting what the system was doing and what tasks it had completed and failed at. This would be done by querying on the Oban.Job schema stored in Postgres.
 
-or
+The application would be built into a docker image and that would run on a Digital Ocean droplet. Let's Encrypt was used to provide SSL. 
 
-"When a customer signs a contract, Sighten will send a message to SkyCRM's endpoint where messages received here will look up information about the Sighten record and pass found information into Hubspot."
-
-So one should generally check the Web.HookmonController module and start following functions from there around the SkyCRM. Typically this WebController module should only be touching a Skyline Solar business context such as Sales, Operations, or Proposals.
-
-The wrong kind of communication model is to make communications that go from, for example, "Hubspot to Sighten to Hubspot".
-
-The correct kind of communication model is to go "Hubspot to Sales to Sighten to Sales to Hubspot"
-
-The correct model prevents cyclical dependencies and helps to keep the things that matter only to Sales in Sales. This causes stuff like the Hubspot application to be almost a 1:1 API Wrapper on Hubspot stuff. Specific details about that information such as, "Can you get the stuff in site survey from Hubspot?" should be a Sales function and not a Hubspot function.
-
-If documentation is missing in places, it just hasn't been written yet
+This has definitely been my largest Elixir project and I'm displaying it to show off to recruiters.
 
 ## SkyCRM Configuration
 

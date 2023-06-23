@@ -1,0 +1,38 @@
+<h1>Listing User roles</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.role_index_path(@socket, :index)}>
+    <.live_component
+      module={Web.RoleLive.FormComponent}
+      id={@role.id || :new}
+      title={@page_title}
+      action={@live_action}
+      post={@role}
+      return_to={Routes.role_index_path(@socket, :index)}
+    />
+  </.modal>
+<% end %>
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="user_roles">
+    <%= for role <- @user_roles do %>
+      <tr id="role-<%= role.id %>">
+        <td><%= role.title %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.role_show_path(@socket, :show, role) %></span>
+          <span><%= live_patch "Edit", to: Routes.role_index_path(@socket, :edit, role) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: role.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Role", to: Routes.role_index_path(@socket, :new) %></span>
